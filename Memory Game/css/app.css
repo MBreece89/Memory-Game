@@ -1,0 +1,298 @@
+/*The game is your standard memory game where you will select two cards in the matix of cards. If those two cards are a match, they stay 'flipped' over and will change color. once you have matched the whole matrix of cards to one another, the game will end and your score/rating will appear along with the oppertunity to try again.*/
+html {
+	box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #ffffff;
+	font-family: fantasy;
+	font-size: 16px;
+    background-color: grey;
+    color: gainsboro;
+    background-image: url('../img/arcade.jpg');
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+h1 {
+	font-family: fantasy;
+}
+
+.deck {
+	width: 85%;
+	background: #716F71;
+	padding: 16px;
+	border-radius: 4px;
+	box-shadow: 8px 9px 26px 0 rgba(46, 61, 73, 0.5);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: center;
+	margin: 0 0 48px;
+}
+
+.deck .card {
+	height: 3.7rem;
+	width: 3.7rem;
+	margin: 0.2rem 0.2rem;
+	background: #141214;;
+	font-size: 0;
+	color: #ffffff;
+	border-radius: 5px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+}
+
+.deck .card.open {
+	transform: rotateY(0);
+	background: #02b3e4;
+	cursor: default;
+	-webkit-backface-visibility: visible !important;
+	backface-visibility: visible !important;
+	animation-duration: .5s;
+}
+
+.deck .card.show {
+	font-size: 33px;
+}
+
+/*make sure matched visible and disabled*/
+.deck .card.match {
+	cursor: default;
+	background: gold;
+	font-size: 33px;
+	-webkit-backface-visibility: visible !important;
+	backface-visibility: visible !important;
+	animation-duration: .5s;
+}
+
+.deck .card.unmatched {
+	-webkit-backface-visibility: visible !important;
+	backface-visibility: visible !important;
+	animation-duration: .5s;
+	background: #e2043b;
+}
+
+.deck .card.disabled {
+	pointer-events: none;
+	opacity: 0.8;
+}
+
+.score-panel {
+	text-align: left;
+	margin-bottom: 10px;
+}
+
+.score-panel .stars {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	margin: 0 5px 0 0;
+}
+
+.score-panel .stars li {
+	list-style: none;
+	display: inline-block;
+}
+
+.score-panel .restart {
+	float: right;
+	cursor: pointer;
+}
+
+.fa-star {
+	color: gold;
+}
+
+.timer {
+	display: inline-block;
+	margin: 0 16px;
+}
+
+
+.overlay {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: black;
+	transition: opacity 500ms;
+	visibility: hidden;
+	opacity: 0;
+}
+
+.overlay:target {
+	visibility: visible;
+	opacity: 1;
+}
+  
+.popup {
+	margin: 70px auto;
+	padding: 20px;
+	background: black;
+	border-radius: 5px;
+	width: 85%;
+	position: relative;
+	transition: all 5s ease-in-out;
+	font-family: fantasy;
+}
+  
+.popup h2 {
+	margin-top: 0;
+	color: darkgray;
+	font-family: fantasy;
+}
+
+.glow {
+  font-size: 80px;
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+  }
+  
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+  }
+}
+
+.popup .close {
+	position: absolute;
+	top: 20px;
+	right: 30px;
+	transition: all 200ms;
+	font-size: 30px;
+	font-weight: bold;
+	text-decoration: none;
+	color: darkgray;
+}
+
+.popup .close:hover {
+	color: gold;
+}
+
+.popup,
+.modalContent {
+	max-height: 100%;
+	overflow: auto;
+	text-align: center;
+}
+
+.show {
+	visibility: visible !important;
+	opacity: 100 !important;
+}
+
+#starRating li {
+	display: inline-block;
+}
+
+.element {
+  animation: pulse 5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #001F3F;
+  }
+  100% {
+    background-color: #FF4136;
+  }
+}
+
+#close{
+    background-color: black;
+	padding: 11px 16px;
+	font-size: 17px;
+	display: block;
+	margin: 0 auto;
+	width: 20%;
+    height: 8%;
+	font-family: fantasy;
+	color: white;
+	border-radius: 5px;
+}
+#close:hover{
+    color: gold;
+}
+/*
+a{
+    font-size: 18px;
+}
+*/
+#playAgain {
+	background-color: black;
+	padding: 11px 16px;
+	font-size: 17px;
+	display: block;
+	margin: 0 auto;
+	width: 20%;
+    height: 8%;
+	font-family: 'fantasy', cursive;
+	color: white;
+	border-radius: 5px;
+    
+}
+#playAgain:hover{
+    color: gold;
+}
+
+@media (max-width: 320px) {
+	.deck {
+		width: 85%;
+	}
+
+	.deck .card {
+		height: 75px;
+		width: 75px;
+	}
+}
+
+@media (min-width: 768px) {
+	.container {
+		font-size: 22px;
+	}
+
+	.deck {
+		width: 660px;
+		height: 680px;
+	}
+
+	.deck .card {
+		height: 125px;
+		width: 125px;
+	}
+
+	.popup {
+		width: 60%;
+	}
+}
